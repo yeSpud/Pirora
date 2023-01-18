@@ -43,6 +43,7 @@ for entry in threeday_json:
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(PIN, GPIO.OUT)
+GPIO.setwarnings(False)
 p = GPIO.PWM(PIN, 60)  # channel=12 frequency=60Hz
 if kp_value >= THRESHOLD:
     #GPIO.output(PIN, GPIO.HIGH)
