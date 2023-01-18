@@ -9,9 +9,11 @@ import RPi.GPIO as GPIO
 ### Constants
 ### THRESHOLD is the KP value at which the LED turns on
 ### PIN is the GPIO pin that is set to high to turn on the LED.
+### BRIGHTNESS is how bright the LED should be (from 0 to 100).
 """
 THRESHOLD: float = 4.5
-PIN: int = 12
+PIN: int = 13
+BRIGHTNESS: int = 5
 
 # Fetch the KP data from Alaska's Geophysical Institute.
 gi = requests.get("https://www.gi.alaska.edu/monitors/aurora-forecast")
@@ -41,11 +43,14 @@ for entry in threeday_json:
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(PIN, GPIO.OUT)
+p = GPIO.PWM(PIN, 60)  # channel=12 frequency=60Hz
 if kp_value >= THRESHOLD:
-    GPIO.output(PIN, GPIO.HIGH)
+    #GPIO.output(PIN, GPIO.HIGH)
+    p.start(BRIGHTNESS)
 
 else:
-    GPIO.output(PIN, GPIO.LOW)
+    #GPIO.output(PIN, GPIO.LOW)
+    p.stop()
 
 # Exit with 0 marking success.
 exit(0)
